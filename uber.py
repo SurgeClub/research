@@ -12,8 +12,8 @@ def main():
     session = get_session()
 
     events = session.query(Event).\
-        filter(Event.start_time > '2016-02-27 17:00:00').\
-        filter(Event.start_time < '2016-02-27 23:00:00').\
+        filter(Event.start_time > '2016-02-28 09:00:00').\
+        filter(Event.start_time < '2016-02-28 16:00:00').\
         filter(Event.eventful_popularity > 40).\
         order_by(-Event.eventful_popularity)
 
