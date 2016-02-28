@@ -11,20 +11,16 @@ Session = sessionmaker(bind=engine)
 
 class Venue(Base):
     __tablename__ = 'venues'
-    __table_args__ = (
-        UniqueConstraint('name', 'zip_code', name='name_location_uc'),
-    )
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False, index=True)
     address = Column(String(255), nullable=False)
-    zip_code = Column(String(255), nullable=False)
     lat = Column(Numeric(precision=7, scale=4), nullable=False)
     long = Column(Numeric(precision=7, scale=4), nullable=False)
-    description = Column(Text)
     capacity = Column(Integer)
     eventful_id = Column(String(255))
     songkick_id = Column(String(255))
+    eventbrite_id = Column(String(255))
     image_url = Column(String(255))
     events = relationship('Event', back_populates='venue')
 
@@ -39,11 +35,11 @@ association_table = Table('event_categories', Base.metadata,
 class Event(Base):
     __tablename__ = 'events'
     __table_args__ = (
-        UniqueConstraint('name', 'venue_id', name='name_venue_uc'),
+        UniqueConstraint('name', 'venue_id', 'start_time', name='name_venue_date_uc'),
     )
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False, index=True)
+    name = Column(String(255), nullable=False)
     start_time = Column(DateTime, nullable=False, index=True)
     end_time = Column(DateTime)
     est_end_time = Column(DateTime)
@@ -51,8 +47,8 @@ class Event(Base):
     songkick_popularity = Column(Numeric(precision=7, scale=6))
     eventful_id = Column(String(255))
     songkick_id = Column(String(255))
+    eventbrite_id = Column(String(255))
     tickets_sold = Column(Integer)
-    description = Column(Text)
     image_url = Column(String(255))
     venue_id = Column(Integer, ForeignKey('venues.id'))
     venue = relationship('Venue', back_populates='events', uselist=False)
