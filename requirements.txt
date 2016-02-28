@@ -3,3 +3,5 @@ PyMySQL==0.7.2
 Pyrebase==0.3.47
 requests==2.9.1
 SQLAlchemy==1.0.12
+
+git+git://github.com/denismakogon/rides-python-sdk@py3-support

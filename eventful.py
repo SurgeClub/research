@@ -11,12 +11,12 @@ def main():
         "app_key": EVENTFUL_KEY,
         "location": "San Francisco",
         "include": "categories,popularity,tickets,subcategories",
-        "page_size": "50",
+        "page_size": "100",
         "sort_order": "popularity",
-        "date": "Today",
+        "date": "This Week",
     }
 
-    page = 1
+    page = 22
     data = {}
 
     session = get_session()

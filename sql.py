@@ -53,6 +53,8 @@ class Event(Base):
     venue_id = Column(Integer, ForeignKey('venues.id'))
     venue = relationship('Venue', back_populates='events', uselist=False)
     categories = relationship('Category', secondary=association_table, back_populates='events')
+    uber_prices = relationship('UberPrice', back_populates='event')
+    lyft_prices = relationship('LyftPrice', back_populates='event')
 
     def __repr__(self):
         return "{} @ {}".format(self.name, self.venue.name)
@@ -67,6 +69,24 @@ class Category(Base):
 
     def __repr__(self):
         return "{}: {}".format(self.type, self.name)
+
+class UberPrice(Base):
+    __tablename__ = 'uber_prices'
+
+    id = Column(Integer, primary_key=True)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    event = relationship('Event', back_populates='uber_prices', uselist=False)
+    surge = Column(Numeric(precision=3, scale=1), nullable=False)
+    time = Column(DateTime, nullable=False)
+
+class LyftPrice(Base):
+    __tablename__ = 'lyft_prices'
+
+    id = Column(Integer, primary_key=True)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    event = relationship('Event', back_populates='lyft_prices', uselist=False)
+    primetime = Column(Numeric(precision=3, scale=1), nullable=False)
+    time = Column(DateTime, nullable=False)
 
 def main():
     Base.metadata.create_all(engine)
